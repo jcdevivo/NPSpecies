@@ -1,12 +1,12 @@
 # load packages
 
-packages <- c("tm", "fastmatch", "SnowballC", "stringi", "RColorBrewer", "RODBC", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "Rcampdf")
+packages <- c("tm", "SnowballC", "stringi", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "Rcampdf")
 
 package.check <- lapply(packages, FUN = function(x) {
 
   if (!require(x, character.only = TRUE)) {
 
-    install.packages(x, dependencies = TRUE, repos = "http://cran.us.r-project.org")
+ #   install.packages(x, dependencies = TRUE, repos = "http://cran.us.r-project.org")
 
     library(x, character.only = TRUE)
 
@@ -33,7 +33,7 @@ library(tm)
 
 doclocation <- file.path("D:/texts")
 
-docs <- VCorpus(DirSource(cname), readerControl = list(reader=readPDF(engine = "pdftools")))
+docs <- VCorpus(DirSource(doclocation), readerControl = list(reader=readPDF(engine = "pdftools")))
 DocsCopy <- docs
 summary(docs)
 
@@ -65,19 +65,19 @@ checkpdffortaxon<-function(doc,taxon) {
   stri_detect_fixed(doccontent[doc],taxa[taxon,1])
 }
 
-tic("scrape")
+
 
 rm(results2)
 
 # Start Document Loop
- tic("document loop")
+
  y<-1
  repeat
  {
 
 
 # Start Taxa Loop
-  tic("taxa check")
+
   x<-1
   repeat
   {
@@ -95,7 +95,6 @@ rm(results2)
     }
 
   # End Taxa Loop
-    toc()
     x = x+1
     if(x==numberoftaxa+1)
     {
@@ -105,7 +104,6 @@ rm(results2)
   }
 
     # End Document Loop
-  toc()
   y = y+1
   if(y==numberofdocs+1)
   {
@@ -114,8 +112,6 @@ rm(results2)
 
 
  }
-
-toc()
 
 
 
