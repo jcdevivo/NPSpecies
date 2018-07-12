@@ -1,4 +1,4 @@
-packages <- c("tm", "fastmatch", "SnowballC", "stringi", "RColorBrewer", "RODBC", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "Rcampdf")
+packages <- c("RODBC"")
 
 package.check <- lapply(packages, FUN = function(x) {
 
