@@ -8,6 +8,5 @@ Description: A bunch of utilities designed as a part of the NPS/IMD Species Inve
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-
 URL: https://github.com/jcdevivo/NPSpecies/
 BugReports: https://github.com/jcdevivo/NPSpecies/issues
