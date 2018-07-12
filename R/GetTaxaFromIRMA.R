@@ -1,4 +1,4 @@
-packages <- c("RODBC"")
+packages <- c("RODBC")
 
 package.check <- lapply(packages, FUN = function(x) {
 
@@ -24,7 +24,7 @@ save(NPSpeciesJustSpecies,file="data/NPSpeciesJustSpecies.rda")
 
 }
 
-KingdomTaxa<-function(kingdom) {
-
-
+taxaKingdom<-function(x) {
+    KingdomTaxa <- NPSpeciesJustSpecies[NPSpeciesJustSpecies$Kingdom==x,]
+    return(KingdomTaxa)
 }
