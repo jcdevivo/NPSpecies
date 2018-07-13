@@ -83,6 +83,10 @@ for (doccount in 1:length(doccontent)) {
  }
  totaltime<-Sys.time()-start_time
  return(totaltime)
+<<<<<<< HEAD
+=======
+ return(results)
+>>>>>>> 0338488d548728b674c61b3d06bbfd08ce54b801
 
 }
 
