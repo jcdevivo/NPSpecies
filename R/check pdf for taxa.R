@@ -1,6 +1,6 @@
 # load packages
 
-packages <- c("tm", "SnowballC", "stringi", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc", "Rcampdf")
+packages <- c("tm", "dplyr", "stringr", "SnowballC", "pdftools", "stringi", "RColorBrewer", "ggplot2", "wordcloud", "biclust", "cluster", "igraph", "fpc")
 
 package.check <- lapply(packages, FUN = function(x) {
 
@@ -18,18 +18,13 @@ package.check <- lapply(packages, FUN = function(x) {
 # get taxon list from NPSpecies database
 
 load("data/NPSpeciesJustSpecies.rda")
-numberoftaxa<-nrow(NPSpeciesJustSpecies)
-
-# testtaxa<-as.data.frame(c("Hyla squirella", "Rana sphenocephala", "Bufo fowleri", "Bufo terrestris", "Anolis carolinensis"))
-# names(testtaxa)[1]<-paste("taxa")
+testtaxa<-as.data.frame(c("Zenaida macroura", "Sitta pusilla", "Vireo flavifrons", "Corvus ossifragus", "Corvus brachyrhynchos", "Spinus tristis", "Hyla squirella", "Rana sphenocephala", "Bufo fowleri", "Bufo terrestris", "Anolis carolinensis"))
 taxa<-as.data.frame(NPSpeciesJustSpecies$SciName)
 
 
 
 # extract text from pdf file and prepare for comparison. See:
 # https://rstudio-pubs-static.s3.amazonaws.com/265713_cbef910aee7642dc8b62996e38d2825d.html
-
-library(tm)
 
 doclocation <- file.path("D:/texts")
 
@@ -54,101 +49,42 @@ docs <- tm_map(docs, PlainTextDocument)
 
 doccontent<-lapply(docs$content, '[[', 1)
 
-numberofdocs<-length(doccontent)
-numberoftaxa<-nrow(NPSpeciesJustSpecies)
 
-# do comparison
-# results<-apply(taxa, 1, function(x) grepl(x,docs$content, fixed=TRUE))
-# results3<-apply(testtaxa, 1, function(x) stri_detect_fixed(doccontent,x,negate=FALSE))
+# function to allow user to check pdf documents for species within any taxonomy list desired.
 
-checkpdffortaxon<-function(doc,taxon) {
-  stri_detect_fixed(doccontent[doc],taxa[taxon,1])
-}
-
-
-
-rm(results2)
+scrapepdf<-function(taxalist) {
+  start_time <- Sys.time()
+  results<-data.frame(IRMAReferenceNumber=character(),SciName=character())
 
 # Start Document Loop
 
- y<-1
- repeat
- {
+for (doccount in 1:length(doccontent)) {
 
 
 # Start Taxa Loop
 
-  x<-1
-  repeat
-  {
+  for (taxacount in 1:nrow(taxalist)) {
 
-  if (checkpdffortaxon(y,x)=="TRUE") {
+    if (stri_detect_fixed(doccontent[doccount],taxalist[taxacount,1])=="TRUE") {
 
-    results<-data.frame(cbind(DocsCopy[[y]][[2]][5]),taxa[x,1])
-
-    if (exists('results2')) {
-      results2<-rbind(results2,results)
-      } else {
-      results2<-results
-      }
+    results<-rbind(results,data.frame(cbind(DocsCopy[[doccount]][[2]][5]),taxalist[taxacount,1]))
 
     }
-
-  # End Taxa Loop
-    x = x+1
-    if(x==numberoftaxa+1)
-    {
-      break
-    }
-
   }
 
-    # End Document Loop
-  y = y+1
-  if(y==numberofdocs+1)
-  {
-    break
-  }
+}
 
-
+ names(results)<-c("IRMAReferenceNumber","SciName")
+ results$IRMAReferenceNumber<-gsub(".pdf","",results$IRMAReferenceNumber)
+ distinct(results)
+ refs<-unique(results$IRMAReferenceNumber)
+ for (i in 1:length(refs)){
+   write.csv(subset(results, IRMAReferenceNumber==refs[i]), paste('d:/SpeciesScraperCSVfiles/', refs[i],'_', deparse(substitute(taxalist)), ".csv", sep=""), row.names=F)
  }
+ totaltime<-Sys.time()-start_time
+ return(totaltime)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# generate metadata csv files
-hits<-t(t(apply(results, 1, function(u) paste('"', names(which(u)), '"', sep="", collapse="," ))))
-hits<-as.data.frame.vector(hits)
-
-filenames<-lapply(unlist(DocsCopy, recursive = FALSE), `[`, 2)
-filenames<-lapply(unlist(filenames, recursive = FALSE), `[[`, 5)
-filenames<-do.call(rbind.data.frame, filenames)
-names(filenames)[1]<-paste("filename")
-filenames<-str_replace(filenames$filename,".pdf",".csv")
-hitsbyref<-cbind(filenames,hits)
+}
 
 
 
