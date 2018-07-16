@@ -52,7 +52,9 @@ dicSpecies<-dictionary(list(birds=c(taxaCategories("Bird")),
                    CrabsLobsersShrimp=c(taxaCategories("Crab/Lobster/Shrimp")),
                    SpiderScorpion=c(taxaCategories("Spider/Scorpion")),
                    Archaea=c(taxaCategories("Archaea"))
-))
+), tolower=FALSE)
+
+dicSpeciesTest<-dictionary(list(test=phrase(c(testtaxa))), separator = " ", tolower=FALSE)
 
 dicSpecies<-dictionary(listSpecies,separator = " ", tolower=FALSE)
 

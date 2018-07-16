@@ -10,6 +10,6 @@ listTaxaCategories<-function(y) {
 
 taxaCategories<-function(z) {
   CategoryTaxa <- NPSpeciesJustSpecies[NPSpeciesJustSpecies$CategoryName==z,]
-  CategoryTaxa <- as.data.frame(CategoryTaxa$SciName)
+  CategoryTaxa <- as.character(CategoryTaxa$SciName)
   return(CategoryTaxa)
 }
