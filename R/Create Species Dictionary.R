@@ -16,24 +16,6 @@ package.check <- lapply(packages, FUN = function(x) {
 
 # Create mini dictionaries
 
-listSpecies<-(list(birds=c(taxaCategories("Bird")),
-                   fish=c(taxaCategories("Fish")),
-                   insects=c(taxaCategories("Insect")),
-                   chromista=c(taxaCategories("Chromista")),
-                   bacteria=c(taxaCategories("Bacteria")),
-                   othernonverts=c(taxaCategories("Other Non-vertebrates")),
-                   NonvascularPlants=c(taxaCategories("Non-vascular Plant")),
-                   fungi=c(taxaCategories("Fungi")),
-                   protozoans=c(taxaCategories("Protozoa")),
-                   VascularPlants=c(taxaCategories("Vascular Plant")),
-                   slugsandsnails=c(taxaCategories("Slug/Snail")),
-                   amphibians=c(taxaCategories("Amphibian")),
-                   reptiles=c(taxaCategories("Reptile")),
-                   mammals=c(taxaCategories("Mammal")),
-                   CrabsLobsersShrimp=c(taxaCategories("Crab/Lobster/Shrimp")),
-                   SpiderScorpion=c(taxaCategories("Spider/Scorpion")),
-                   Archaea=c(taxaCategories("Archaea"))
-              ))
 
 dicSpecies<-dictionary(list(birds=c(taxaCategories("Bird")),
                    fish=c(taxaCategories("Fish")),
