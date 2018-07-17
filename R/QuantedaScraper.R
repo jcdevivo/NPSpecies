@@ -20,6 +20,12 @@ start_time <- Sys.time()
 
 load("data/NPSpeciesJustSpecies.rda")
 
+taxaCategories<-function(z) {
+  CategoryTaxa <- NPSpeciesJustSpecies[NPSpeciesJustSpecies$CategoryName==z,]
+  CategoryTaxa <- as.character(CategoryTaxa$SciName)
+  return(CategoryTaxa)
+}
+
 dicSpecies<-dictionary(list(birds=c(taxaCategories("Bird")),
                             fish=c(taxaCategories("Fish")),
                             insects=c(taxaCategories("Insect")),
@@ -42,8 +48,9 @@ dicSpecies<-dictionary(list(birds=c(taxaCategories("Bird")),
 
 # Read in pdf files and check for species contained in the dictionary. Test files are in the data directory with the package.
 
-# doclocation <- file.path("D:/texts")
-doclocation <- file.path("data")
+# doclocation <- file.path("D:/texts") #work computer
+doclocation <- file.path("H:/texts") #home computer
+# doclocation <- file.path("data")
 
 docs<-readtext(paste0(doclocation, "/*.pdf"),
               docvarsfrom = "filenames",
@@ -61,3 +68,4 @@ for (i in 1:length(refs)){
   write.csv(subset(results, IRMAReferenceNumber==refs[i]), paste("results/",refs[i],"_NPSpeciesSpecies.csv", sep=""), row.names=F)
 }
 print(Sys.time()-start_time)
+
