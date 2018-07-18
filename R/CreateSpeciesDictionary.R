@@ -14,8 +14,13 @@ package.check <- lapply(packages, FUN = function(x) {
 
 })
 
-# Create mini dictionaries
+taxaCategories<-function(z) {
+  CategoryTaxa <- NPSpeciesJustSpecies[NPSpeciesJustSpecies$CategoryName==z,]
+  CategoryTaxa <- as.character(CategoryTaxa$SciName)
+  return(CategoryTaxa)
+}
 
+# Create dictionary
 
 dicSpecies<-dictionary(list(birds=c(taxaCategories("Bird")),
                    fish=c(taxaCategories("Fish")),

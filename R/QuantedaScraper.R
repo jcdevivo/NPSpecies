@@ -1,6 +1,6 @@
 # load packages
 
-packages <- c("tm", "readtext", "quanteda")
+packages <- c("readtext", "quanteda")
 
 package.check <- lapply(packages, FUN = function(x) {
 

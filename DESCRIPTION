@@ -1,6 +1,6 @@
 Package: NPSpecies
 Type: Package
-Title: NPSpecies Utilities
+Title: Utility Functions associated with NPSpecies
 Version: 0.1.0
 Author: Joe DeVivo
 Maintainer: The package maintainer <yourself@somewhere.net>
@@ -10,3 +10,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/jcdevivo/NPSpecies/
 BugReports: https://github.com/jcdevivo/NPSpecies/issues
+Imports: 
+    quanteda,
+    RODBC,
+    readtext
